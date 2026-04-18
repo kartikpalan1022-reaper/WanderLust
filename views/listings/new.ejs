@@ -1,0 +1,91 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>Create New Listing</h1>
+            <form action="/listings" method="POST" class="needs-validation" novalidate   enctype="multipart/form-data"> 
+                <div class ="mb-3">
+                    <label for="title" class="form-label">Title:</label><br>
+                    <input class="form-control" type="text" name="listing[title]" placeholder="Title" required>
+                    <div class="invalid-feedback" >
+                        Please provide a title.
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div><br>
+
+                <div class ="mb-3" >
+                    <label for="description" class="form-label">Description:</label><br>
+                    <textarea class="form-control" name="listing[description]" placeholder="Description" required></textarea>
+                    <div class="invalid-feedback">
+                        Please provide a description.
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div><br>
+
+
+                <div class="row">
+                    <div class ="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price:</label><br>
+                        <input class="form-control" min="0" type="number" name="listing[price]" placeholder="1200" required>
+
+                    <div class="invalid-feedback">
+                        Please provide a price.
+                        </div>  
+                    <!-- <div class="valid-feedback">
+                        Looks good!
+                        </div> -->
+                    </div>
+                    <br>
+                    <div class ="mb-3 col-md-8">
+                        <label for="location" class="form-label">Location:</label><br>
+                        <input class="form-control" type="text" name="listing[location]" placeholder="India" required>
+                        <div class="invalid-feedback">
+                            Please provide a location.
+                            </div>  
+                        <div class="valid-feedback">
+                            Looks good!
+                            </div>
+                    </div>
+                    <br>
+                    <div class="mb-3 col-md-8">
+                        <label for="category" class="form-label">Category:</label><br>
+
+                        <select class="form-select" name="listing[category][]" multiple required style="height: 150px; padding: 10px; border-radius: 8px; font-size: 15px;">
+                            <option value="forest">🌲 Forest</option>
+                            <option value="city">🏙️ City</option>
+                            <option value="camping">🏕️ Camping</option>
+                            <option value="arctic">❄️ Arctic</option>
+                            <option value="resorts">🏖️ Resorts</option>
+                            <option value="villas">🏡 Villas</option>
+                        </select>
+
+                        <small style="color: gray;">
+                            Hold Ctrl (Windows) or Cmd (Mac) to select multiple
+                        </small>
+
+                        <div class="invalid-feedback">
+                            Please select at least one category.
+                        </div>  
+                    </div>  
+            </div>
+            <br>
+
+                <!-- <div class ="mb-3">
+                    <label for="imageUrl" class="form-label">Image URL:</label><br>
+                    <input class="form-control" type="text" name="listing[imageUrl]" placeholder="Image URL">
+                </div>
+                <br> -->
+                 <div class ="mb-3">
+                    <label for="images" class="form-label">Image URLs:</label><br>
+                    <input class="form-control" type="file" name="listing[images][]" placeholder="Image URL 1"> <br>
+                    <input class="form-control" type="file" name="listing[images][]" placeholder="Image URL 2">
+                </div><br>
+                <button type="submit" class="btn btn-dark add-btn">Create Listing</button>
+            </form>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,146 @@
+<% layout('layouts/boilerplate') %> 
+
+<body>
+
+<main>
+
+<!-- 🔥 FILTER BAR -->
+<div id="filters">
+
+  <a href="/listings" class="filter <%= !category ? 'active' : '' %>">All</a>
+
+  <a href="/listings?category=trending" class="filter <%= category === 'trending' ? 'active' : '' %>">
+    <i class="fa-solid fa-fire"></i> Trending
+  </a>
+
+  <a href="/listings?category=rooms" class="filter <%= category === 'rooms' ? 'active' : '' %>">
+    <i class="fa-solid fa-bed"></i> Rooms
+  </a>
+
+  <a href="/listings?category=mountains" class="filter <%= category === 'mountains' ? 'active' : '' %>">
+    <i class="fa-solid fa-mountain"></i> Mountains
+  </a>
+
+  <a href="/listings?category=beach" class="filter <%= category === 'beach' ? 'active' : '' %>">
+    <i class="fa-solid fa-water"></i> Beach
+  </a>
+
+  <a href="/listings?category=forest" class="filter <%= category === 'forest' ? 'active' : '' %>">
+    <i class="fa-solid fa-tree"></i> Forest
+  </a>
+
+  <a href="/listings?category=city" class="filter <%= category === 'city' ? 'active' : '' %>">
+    <i class="fa-solid fa-city"></i> City
+  </a>
+
+  <a href="/listings?category=camping" class="filter <%= category === 'camping' ? 'active' : '' %>">
+    <i class="fa-solid fa-campground"></i> Camping
+  </a>
+
+  <a href="/listings?category=arctic" class="filter <%= category === 'arctic' ? 'active' : '' %>">
+    <i class="fa-solid fa-snowflake"></i> Arctic
+  </a>
+
+  <a href="/listings?category=resorts" class="filter <%= category === 'resorts' ? 'active' : '' %>">
+    <i class="fa-solid fa-umbrella-beach"></i> Resorts
+  </a>
+
+  <a href="/listings?category=villas" class="filter <%= category === 'villas' ? 'active' : '' %>">
+    <i class="fa-solid fa-house"></i> Villas
+  </a>
+
+</div>
+
+<!-- 🔥 LISTINGS -->
+<div class="row row-cols-lg-3">
+
+  <% if (listings.length === 0) { %>
+
+    <div style="text-align:center; width:100%; margin-top:50px;">
+      <h3>No such listing exists 😔</h3>
+      <a href="/listings" class="btn btn-dark mt-3">Back to all listings</a>
+    </div>
+
+  <% } else { %>
+
+    <% for(let listing of listings) { %>
+      <div class="listing-card" style="width: 20rem;">
+        <a href="/listings/<%= listing._id %>" class="click">
+          <div class="overlay">
+
+            <img 
+              src="<%= listing.images && listing.images.length > 0 ? listing.images[0].url : '/images/default.jpeg' %>" 
+              class="card-img-top"
+            >
+
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.title %></h5>
+
+              <p class="card-text">
+                Price: &#8377;<%= listing.price.toLocaleString('en-IN') %> / night <br>
+                Location: <%= listing.location %>
+              </p>
+            </div>
+
+          </div>
+        </a>
+      </div>
+    <% } %>
+
+  <% } %>
+
+</div>
+
+</main>
+
+</body>
+
+<!-- <script>
+const input = document.getElementById("searchInput");
+const box = document.getElementById("suggestions");
+
+// 🔥 Highlight function (background style)
+function highlightText(text, query) {
+  const regex = new RegExp(`(${query})`, "gi");
+  return text.replace(regex, `<span class="highlight">$1</span>`);
+}
+
+if (input && box) {
+  input.addEventListener("input", async () => {
+    const query = input.value.trim();
+
+    if (!query) {
+      box.style.display = "none";
+      return;
+    }
+
+    try {
+      const res = await fetch(`/listings/search?q=${query}`);
+      const data = await res.json();
+
+      box.innerHTML = "";
+
+      data.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("suggestion-item");
+
+        // 🔥 Highlight applied here
+        div.innerHTML = 
+          highlightText(item.title, query) + 
+          " (" + highlightText(item.location, query) + ")";
+
+        div.addEventListener("click", () => {
+          window.location.href = `/listings/${item._id}`;
+        });
+
+        box.appendChild(div);
+      });
+
+      box.style.display = data.length ? "block" : "none";
+
+    } catch (err) {
+      console.log("Search error:", err);
+    }
+  });
+}
+</script> -->

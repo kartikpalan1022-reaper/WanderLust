@@ -1,0 +1,567 @@
+<% layout('layouts/boilerplate') %>
+<script>
+  const MapToken = "<%= process.env.MAP_TOKEN %>";
+  // const coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+  const listing =<%- JSON.stringify(listing) %>;
+</script>
+
+<body>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+
+                <h1>Listing Details</h1>
+        </div>
+       <!-- 🔥 CHANGED: col-6 offset-2 → col-md-6 offset-md-3 (better centering) -->
+<div class="display-card col-md-6">
+  
+  <div class="insta-slider">
+
+    <button class="arrow left" onclick="prevSlide()">&#10094;</button>
+
+    <div class="slides">
+      <% if(listing.images && listing.images.length > 0) { %>
+        <% listing.images.forEach((img, index) => { %>
+          <img 
+            src="<%= img.url %>" 
+            class="slide <%= index === 0 ? 'active' : '' %>" 
+            alt="<%= listing.title %>">
+        <% }) %>
+      <% } else { %>
+        <img 
+          src="/images/default.jpeg" 
+          class="slide active" 
+          alt="default image">
+      <% } %>
+    </div>
+
+    <button class="arrow right" onclick="nextSlide()">&#10095;</button>
+
+  </div>
+
+
+</div>
+          <div class="card-body">
+                <h2 class="card-title"><%= listing.title %></h2>
+                <p class="card-text"><strong>Hosted by:</strong> <%= listing.owner ? listing.owner.username : "Unknown" %></p>
+                <p class="card-text">
+                <strong>Category:</strong> 
+                <%= listing.category.map(c => 
+                      c.charAt(0).toUpperCase() + c.slice(1).toLowerCase()
+                    ).join(", ") %>
+                </p>
+                <p class="card-text"><%= listing.description %></p>
+                <p class="card-text">Price: &#8377;<%= listing.price.toLocaleString('en-IN') %> / night</p>
+                <p class="card-text">Location: <%= listing.location %></p>
+               <!-- 🔥 NEW: wrap everything in flex container -->
+                <div class="d-flex gap-2 mt-3">
+
+                  <a href="/listings" class="btn btn-secondary">
+                    Back to Listings
+                  </a>
+                  <% if(currUser && listing.owner && currUser._id.equals(listing.owner._id)) { %> <!-- only show if current user is owner -->
+                  <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">
+                    Edit Listing
+                  </a>
+
+                  <!-- 🔥 IMPORTANT: form inline + button styled -->
+                  <form 
+                    action="/listings/<%= listing._id %>?_method=DELETE" 
+                    method="POST"
+                    class="d-inline"
+                  >
+                    <button type="submit" class="btn btn-danger">
+                      Delete Listing
+                    </button>
+                  
+                  </form>
+                    <% } %>
+
+                </div>
+          </div>
+    </div>
+        <div class="col-8 offset-2">
+          <% if(currUser) { %> <!-- only show review form if logged in -->
+          <h3 class="mt-4 card-title">Share your experience</h3>
+          <form action="/listings/<%= listing.id %>/review" method="POST" class="needs-validation" novalidate> 
+            <div>
+              <div>
+                <!-- <label for="new-review" class="card-text mt-3 mb-3" >Add a Review:</label><br> -->
+                    <textarea id="new-review" name="review[comment]" rows="4" cols="50" placeholder="Write your experience here..." class="form-control" required></textarea>
+              </div>     
+              <div class="star-rating-wrap">
+                  <label class="star-label">Rating:</label>
+                  <!-- 🔥 FIX: flex layout added -->
+                  <div class="stars d-flex align-items-center gap-2" id="starRating"> 
+                      <input type="hidden" name="review[rating]" id="ratingValue" value="3" />
+                      <button type="button" class="star" data-value="1" aria-label="1 star">★</button>
+                      <button type="button" class="star" data-value="2" aria-label="2 stars">★</button>
+                      <button type="button" class="star" data-value="3" aria-label="3 stars">★</button>
+                      <button type="button" class="star" data-value="4" aria-label="4 stars">★</button>
+                      <button type="button" class="star" data-value="5" aria-label="5 stars">★</button>
+                      <span class="star-text" id="ratingText">3 / 5</span>
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-dark add-btn">Submit Review</button>
+            </div>
+          </form>
+          <% } else { %>
+          <p style="margin-top:16px; font-size:32px; color:#555; text-align:center;">
+            Please 
+            <a href="/login" 
+              style="color:#007bff; text-decoration:none; font-weight:600;"
+              onmouseover="this.style.textDecoration='underline'" 
+              onmouseout="this.style.textDecoration='none'">
+              log in
+            </a> 
+            to add a review.
+          </p>
+          <% } %>
+          <br>
+          <br>
+          <h4 class="mt-4 mb-3">All Reviews</h4>
+          <div class="row g-3">
+            <% if(listing.review.length) { %>
+                <% for(let rev of listing.review) { %>
+                  <div class="col-md-6 col-lg-4">
+                    <div class="card review-card shadow-sm h-100">
+                      <div class="card-body"> 
+                        <!-- Top Row: Avatar + Name + Delete -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+
+                          <div class="d-flex align-items-center gap-3">
+                            <div class="review-avatar">
+                              K
+                            </div>
+                            <div>
+                              <h6 class="mb-0 fw-bold">@<%= rev.createdBy.username %></h6>
+                              <!-- Stars -->
+                              <div class="review-stars" data-rating="<%= rev.rating %>"></div>
+                            </div>
+                          </div>
+
+                          <!-- Delete Button -->
+                           <% if(currUser && rev.createdBy && currUser._id.equals(rev.createdBy._id)) { %> <!-- only show delete if current user is review author -->
+                          <form action="/listings/<%= listing._id %>/review/<%= rev._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>             
+                          </form>
+                          <% } %>
+                        </div>
+                        <!-- Comment -->
+                        <p class="review-comment mb-0">
+                          <%= rev.comment %>
+                        </p>
+                      </div>
+                    </div>
+      </div>
+    <% } %>
+
+  <% } else { %>
+    <p>No reviews yet.</p>
+  <% } %>
+      </div>
+    </div>
+    <div class="col-8 offset-3 mb-3">
+        <h3>Where you will be </h3>
+        <div id="map">
+
+
+        </div>
+
+      </div>
+  </div>   
+</body>
+
+<script src="/js/map.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+let currentIndex = 0;
+let slides = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+  slides = document.querySelectorAll(".slide");
+  showSlide(currentIndex);
+});
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove("active"));
+  if (slides[index]) {
+    slides[index].classList.add("active");
+  }
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+}
+
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  showSlide(currentIndex);
+}
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const stars = document.querySelectorAll("#starRating .star");
+  const ratingValue = document.getElementById("ratingValue");
+  const ratingText = document.getElementById("ratingText");
+
+  if (!stars.length || !ratingValue || !ratingText) return; // safety
+
+  let currentRating = Number(ratingValue.value) || 3;
+
+  function paintStars(rating) {
+    stars.forEach((star) => {
+      const value = Number(star.dataset.value);
+      star.classList.toggle("active", value <= rating);
+    });
+    ratingText.textContent = `${rating} / 5`;
+  }
+
+  // initial paint
+  paintStars(currentRating);
+
+  // hover + click
+  stars.forEach((star) => {
+    star.addEventListener("mouseenter", () => {
+      paintStars(Number(star.dataset.value));
+    });
+
+    star.addEventListener("mouseleave", () => {
+      paintStars(currentRating);
+    });
+
+    star.addEventListener("click", () => {
+      currentRating = Number(star.dataset.value);
+      ratingValue.value = currentRating;
+      paintStars(currentRating);
+    });
+  });
+
+  // 🔥 review display stars (no change needed but kept safe)
+  document.querySelectorAll(".review-stars").forEach((el) => {
+    const rating = Number(el.dataset.rating) || 0;
+    let starsHTML = "";
+
+    for (let i = 1; i <= 5; i++) {
+      starsHTML += `<span class="star ${i <= rating ? "filled" : ""}">★</span>`;
+    }
+
+    el.innerHTML = starsHTML;
+  });
+
+});
+</script>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <% layout('layouts/boilerplate') %>
+
+
+<body>
+
+    <div class="row">
+            <div class="col-8 offset-2">
+
+                <h1>Listing Details</h1>
+            </div>
+
+
+
+        <p><%= listing.description %></p>
+        <p>Price: &#8377;<%= listing.price.toLocaleString('en-IN') %> / night</p>
+        <p>Location: <%= listing.location %></p>
+        <a href="/listings">Back to Listings</a>
+        <a href="/listings/<%= listing._id %>/edit">Edit Listing</a> -->
+<!-- 
+        <div class="display-card col-6 offset-2">
+
+
+
+          <div class="insta-slider">
+
+            <button class="arrow left" onclick="prevSlide()">&#10094;</button>
+
+            <div class="slides">
+
+                <% if(listing.images && listing.images.length > 0 && listing.images[0] !== "") { %>
+
+                    <% listing.images.forEach((img, index) => { %>
+                        <img 
+                            src="<%= img %>" 
+                            class="slide <%= index === 0 ? 'active' : '' %>" 
+                            alt="<%= listing.title %>">
+                    <% }) %>
+
+                <% } else { %>
+
+                    <img 
+                        src="/images/default.jpeg" 
+                        class="slide active" 
+                        alt="default image">
+
+                <% } %>
+
+            </div>
+
+            <button class="arrow right" onclick="nextSlide()">&#10095;</button>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="card-body">
+
+                <h2 class="card-title"><%= listing.title %></h2>
+                <p class="card-text"><%= listing.description %></p>
+                <p class="card-text">Price: &#8377;<%= listing.price.toLocaleString('en-IN') %> / night</p>
+                <p class="card-text">Location: <%= listing.location %></p>
+                <a href="/listings" class="click">Back to Listings</a>
+                <a href="/listings/<%= listing._id %>/edit" class="click">Edit Listing</a>
+                <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST"  style="display: inline;">
+                    <button type="submit" class="click">Delete Listing</button>
+                </form>
+
+
+            </div>
+        </div>
+
+
+        
+        
+        
+            <div class="col-8 offset-2">
+            <h3 class="mt-4 card-title">Reviews</h3>
+            <form action="/listings/<%= listing.id %>/review" method="POST" class="needs-validation" novalidate> 
+                <div>
+                    <div>
+                        <label for="new-review" class="card-text mt-3 mb-3" >Add a Review:</label><br>
+                        <textarea id="new-review" name="review[comment]" rows="4" cols="50" placeholder="Write your review here..." class="form-control" required></textarea>
+                    </div>
+                   
+                <div class="star-rating-wrap">
+                    <label class="star-label">Rating:</label>
+
+                    <div class="stars" id="starRating">
+                      
+                        <input type="hidden" name="review[rating]" id="ratingValue" value="3" />
+
+                        
+                        <button type="button" class="star" data-value="1" aria-label="1 star">★</button>
+                        <button type="button" class="star" data-value="2" aria-label="2 stars">★</button>
+                        <button type="button" class="star" data-value="3" aria-label="3 stars">★</button>
+                        <button type="button" class="star" data-value="4" aria-label="4 stars">★</button>
+                        <button type="button" class="star" data-value="5" aria-label="5 stars">★</button>
+                        <span class="star-text" id="ratingText">3 / 5</span>
+                    </div>
+                </div>
+
+
+
+                        <button type="submit" class="btn btn-dark add-btn">Submit Review</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+            
+
+        
+            <br>
+            <br>
+     <h4 class="mt-4 mb-3">All Reviews</h4>
+
+     <div class="row g-3">
+  <% if(listing.review.length) { %>
+
+    <% for(let rev of listing.review) { %>
+      <div class="col-md-6 col-lg-4">
+        <div class="card review-card shadow-sm h-100">
+          <div class="card-body">
+
+           
+            <div class="d-flex align-items-center justify-content-between mb-2">
+
+              <div class="d-flex align-items-center gap-3">
+                <div class="review-avatar">
+                  K
+                </div>
+
+                <div>
+                  <h6 class="mb-0 fw-bold">Kartik</h6>
+
+               
+                  <div class="review-stars" data-rating="<%= rev.rating %>"></div>
+                </div>
+              </div>
+
+    
+              <form action="/listings/<%= listing._id %>/review/<%= rev._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+
+            </div>
+
+            
+            <p class="review-comment mb-0">
+              <%= rev.comment %>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+  <% } else { %>
+    <p>No reviews yet.</p>
+  <% } %>
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+   
+
+</body>
+
+<script>
+  let currentIndex = 0;
+  const slides = document.querySelectorAll(".slide");
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[index].classList.add("active");
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  }
+
+
+
+
+
+  const stars = document.querySelectorAll("#starRating .star");
+  const ratingValue = document.getElementById("ratingValue");
+  const ratingText = document.getElementById("ratingText");
+
+  let currentRating = Number(ratingValue.value) || 3;
+
+  function paintStars(rating) {
+    stars.forEach((star) => {
+      const value = Number(star.dataset.value);
+      star.classList.toggle("active", value <= rating);
+    });
+    ratingText.textContent = `${rating} / 5`;
+  }
+
+  // initial paint
+  paintStars(currentRating);
+
+  // hover preview + click set
+  stars.forEach((star) => {
+    star.addEventListener("mouseenter", () => {
+      paintStars(Number(star.dataset.value));
+    });
+
+    star.addEventListener("mouseleave", () => {
+      paintStars(currentRating);
+    });
+
+    star.addEventListener("click", () => {
+      currentRating = Number(star.dataset.value);
+      ratingValue.value = currentRating; // backend gets this
+      paintStars(currentRating);
+    });
+  });
+
+
+
+  document.querySelectorAll(".review-stars").forEach((el) => {
+    const rating = Number(el.dataset.rating) || 0;
+    let starsHTML = "";
+
+    for(let i = 1; i <= 5; i++){
+      starsHTML += `<span class="star ${i <= rating ? "filled" : ""}">★</span>`;
+    }
+
+    el.innerHTML = starsHTML;
+  });
+
+
+
+
+</script> --> 
+
+    

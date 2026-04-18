@@ -1,0 +1,541 @@
+/* 🔥 NAVBAR FIX */
+.navbar {
+  height: 5rem;
+  background-color: #e99396;
+  margin-bottom: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+/* 🔥 LOGO ICON FIX */
+.fa-compass {
+  color: rgb(205, 73, 73);
+  font-size: 2rem;
+  margin-left: 10px;
+}
+
+/* 🔥 REMOVE BAD SPACING */
+.collapse {
+  margin-left: 0;   /* ❗ was 150px */
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* 🔥 NAV LINKS SPACING */
+.navbar-nav {
+  margin-left: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+/* 🔥 PREVENT OVERLAP */
+.navbar a {
+  display: inline-block;
+  width: auto;
+}
+
+
+    .f-content-links a{
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.2rem;
+    }
+
+    .f-content-links a:hover{
+        color: black;
+        text-decoration: underline;
+    }
+    .f-content{
+        margin-top: 5px;
+        font-size: 1.2rem;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content: center;
+        background-color: #aeabab;
+        padding: 10px 0;
+        height:8rem;
+        align-items:space-evenly;
+        text-align: center;  
+    }
+    .f-content-socials {
+
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            width:100%;
+    }
+      .f-content-socials i{
+
+            color: white;
+            margin-right: 2rem;
+
+    }
+    .f-content-links{
+           color: white;
+            text-decoration: none;
+            margin: 0 5px;
+            font-size: 1.5rem;
+            width:100%;
+
+      
+    }
+    .f-content-info{
+        margin-top: 5px;
+        font-size: 1.2rem;
+        background-color: #aeabab;
+        width:100%;
+        text-align: center;
+
+       
+    }
+
+
+ .listing-card{
+    background-color: #f9f9f9;
+    border:none !important;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.listing-card:hover{
+    transform: scale(1.03);
+}
+    .card-img-top{
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+    .card-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+
+    }
+    .row{
+    row-gap: 25px;
+}
+
+.listing-card{
+    width: 100%;
+}
+    .card-text{
+        font-size: 1.2rem;
+        color: #555;
+        margin-top: 5px;
+
+    }
+    .card-body{
+        padding: 15px;
+    }
+
+    .click{
+        text-decoration: none;
+        color: rgb(91, 89, 89);
+        background-color: #fbe9ea;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        margin-top: 10px;
+        display: inline-block;
+
+        border: none !important;
+        outline: none !important;
+        cursor: pointer
+    }
+
+
+    .click:hover{
+        background-color: #fcc9c9;
+        color: rgb(50, 49, 49);
+        text-decoration: none;
+    }
+    
+    body{
+        background-color: #fffafa !important;
+        display:flex;
+        flex-direction: column;
+        min-height: 100vh;
+
+    } 
+
+    .container{
+        flex:1;
+    }
+    .add-btn{
+        /* background-color:rgb(206, 86, 86) !important; */
+        /* border-radius: 10% !important; */
+        border:none !important;
+        margin-top:10px !important;
+    }
+
+    .add-btn:hover{
+        background-color: rgb(255, 150, 150) !important;
+        color:white !important;
+    }
+
+
+    .show-img{
+        height:70vh;
+        object-fit: cover;
+        border-radius: 1rem !important;
+
+    }
+
+
+.insta-slider {
+  position: relative;
+
+  /* 🔥 CHANGED: fixed width → responsive */
+  width: 100%;
+  max-width: 500px;
+
+  height: 300px;
+  margin: auto;
+
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.slides {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🔥 CLEAN FIX: no left shifting, only opacity */
+.slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  background: rgba(0,0,0,0.6);
+  color: white;
+  
+  border: none;
+  font-size: 18px;
+  padding: 6px 10px;
+  
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+
+  width: auto;     /* 🔥 FIX */
+  height: auto;    /* 🔥 FIX */
+}
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+
+.arrow:hover {
+  background: black;
+}
+
+
+.invalid-feedback {
+  margin-top: 0;
+  padding-top: 2px;
+  font-size: 0.85rem;
+}
+
+
+.star-rating-wrap {
+  margin-top: 14px;
+}
+
+.star-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+/* 🔥 MAIN FIX */
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;   /* 🔥 prevents line break */
+}
+
+/* stars */
+.star {
+  font-size: 26px;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: #ddd;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+.star.active {
+  color: #ff385c;
+}
+
+/* 🔥 CRITICAL FIX */
+.star-text {
+  margin-left: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #444;
+  white-space: nowrap;   /* 🔥 THIS FIXES 3/5 vertical issue */
+}
+
+
+
+
+
+
+
+
+/* Review Cards */
+.review-card{
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Avatar Circle */
+.review-avatar{
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  color: #fff;
+  background: #111;
+}
+
+/* Comment */
+.review-comment{
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.35rem;
+}
+
+/* Stars */
+.review-stars{
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.review-stars .star{
+  color: #ddd;
+}
+
+.review-stars .star.filled{
+  color: #ff385c; /* Airbnb-ish pink */
+}
+
+
+
+    /* 🔴 CENTER CONTAINER */
+    .signup-container {
+      height: calc(100vh - 70px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 🔴 SIGNUP BOX */
+    .signup-box {
+      width: 380px;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    /* 🔴 TITLE */
+    .signup-title {
+      font-size: 26px;
+      font-weight: 600;
+      color: #222;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .signup-subtitle {
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* 🔴 FORM */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ff385c;
+    }
+
+    /* 🔴 BUTTON */
+    button {
+      width: 100%;
+      background-color: #ff385c;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #e03150;
+    }
+
+    /* 🔴 LOGIN LINK */
+    .login-text {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 15px;
+    }
+
+    .login-text a {
+      color: #ff385c;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Map */
+    #map {
+      height: 400px;
+      width: 100%;
+      border-radius: 14px;
+    }
+
+/* 
+/* 🔥 FILTER BAR */
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin: 25px 0;
+}
+
+/* 🔥 EACH FILTER */
+.filter {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  text-decoration: none;   /* 👈 IMPORTANT (for <a>) */
+  color: black;            /* 👈 fix link color */
+  display: inline-block;
+}
+
+/* ICON */
+.filter i {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* HOVER EFFECT */
+.filter:hover {
+  background-color: #f2f2f2;
+  transform: translateY(-2px);
+}
+
+/* 🔥 ACTIVE FILTER (NEW) */
+.filter.active {
+  background-color: black;
+  color: white;
+}
+
+/* ICON COLOR WHEN ACTIVE */
+.filter.active i {
+  color: white;
+}
+
+
+
+/* 🔥 Rounded Search */
+#searchInput {
+  width: 300px;
+  border-radius: 50px;
+}
+
+/* 🔥 Suggestions dropdown */
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  display: none;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: #f2f2f2;
+}
+
+
+

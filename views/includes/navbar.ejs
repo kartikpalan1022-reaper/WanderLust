@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-4 sticky-top">
+  <div class="container-fluid">
+
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+      <span>WanderLust</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      
+      <!-- LEFT SIDE -->
+      <div class="navbar-nav ms-3 gap-3">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+      <!-- 🔥 SEARCH BAR
+     <form action="/listings" method="GET" class="d-flex mx-auto position-relative" role="search">
+
+        <input 
+          type="text" 
+          name="search" 
+          id="searchInput"
+          value="<%= typeof search !== 'undefined' ? search : '' %>"
+          placeholder="Search destinations..." 
+          class="form-control rounded-pill px-4"
+          autocomplete="off"
+        >
+
+        <button class="btn btn-dark rounded-pill ms-2 px-3">
+          <i class="fa fa-search"></i>
+        </button>
+
+        <!-- 🔥 Suggestions dropdown -->
+        <div id="suggestions" class="suggestions-box"></div>
+
+      </form> -->
+      <!-- RIGHT SIDE -->
+      <div class="navbar-nav ms-auto gap-3">
+
+        <a class="nav-link" href="/listings/new">Add new Listing</a>
+
+        <% if(!currUser) { %>
+          <a class="nav-link login-btn" href="/login"><b>Login</b></a>
+          <a class="nav-link signup-btn" href="/signup"><b>Signup</b></a>
+
+        <% } else { %>
+          <span class="nav-link user-greet">
+            Hello, <%= currUser.username %>
+          </span>
+
+          <a class="nav-link logout-btn" href="/logout"><b>Logout</b></a>
+        <% } %>
+
+      </div>  
+
+    </div>
+  </div>
+</nav>
