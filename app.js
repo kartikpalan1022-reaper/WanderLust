@@ -113,39 +113,12 @@ app.use((req, res, next) => {
 //     res.send(registeredUser);
 // });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.use('/listings',listingRouter);
-
 app.use('/listings/:id/review',reviewRouter);
-
 app.use('/',userRouter);
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 
 //-- Error handling middleware----
