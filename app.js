@@ -22,7 +22,7 @@ const reviewRouter = require('./routes/review.js');
 const userRouter = require('./routes/user.js'); 
 
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require("connect-mongo").default;
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
